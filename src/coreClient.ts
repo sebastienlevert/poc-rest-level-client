@@ -1,5 +1,6 @@
 import { GraphClient } from "./GraphClient";
 import "cross-fetch/polyfill"
+import { Client } from "@microsoft/microsoft-graph-client";
 
 const baseUrl = "https://graph.microsoft.com/v1.0"
 
@@ -10,21 +11,25 @@ function buildUrl(pathstring:string){
 
 export function init(accessToken:string){
 
-
-const  coreclient = {
-    api: (path: string) => {
-        const url = buildUrl(path);
-        return {
-            get: () => { 
-                return callAPI(url, accessToken);
-            },
-            post: (body, headers) => { 
-                return callPost(url,body, headers, accessToken)
-            }
-        }
-    }
-}
-return coreclient
+const graphCoreClient = Client.init({
+    authProvider: (done) => {
+		done("init error", accessToken);
+	}
+})
+// const  coreclient = {
+//     api: (path: string) => {
+//         const url = buildUrl(path);
+//         return {
+//             get: () => { 
+//                 return callAPI(url, accessToken);
+//             },
+//             post: (body, headers) => { 
+//                 return callPost(url,body, headers, accessToken)
+//             }
+//         }
+//     }
+// }
+return graphCoreClient
 }
 
 async function callAPI(url, accessToken){
