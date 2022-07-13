@@ -1,33 +1,30 @@
 import { GraphClient } from "./GraphClient";
 import { User, MessageCollectionResponse, Drive, Message, SendMailBody } from "./Model";
 
-interface Routes {
+export interface Routes {
     (api: "/me"): GetMe,
     (api: "/me/messages"): GetMessages,
     (api: "/me/sendMail"): SendMail,
     (api: "/me/drive"): GetDrive
 }
 
-interface GetMe {
+export interface GetMe {
     get(): User,
 }
 
-interface GetDrive {
+export interface GetDrive {
     get(): Drive,
 }
 
-interface GetMessages {
+export interface GetMessages {
     get(): MessageCollectionResponse,
+    post(): MessageCollectionResponse
 }
 
-interface SendMail {
+export interface SendMail {
     post(body: SendMailBody, headers: Record<string, string>): number;
-
 }
 
 export type GraphSDKClient = GraphClient & {
     api: Routes
 }
-
-
-

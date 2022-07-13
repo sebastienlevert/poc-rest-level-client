@@ -1,7 +1,8 @@
 import { GraphClientInit } from "./GraphClient";
+import { generateFluentClient } from "./GraphFluentAPI";
 import { Drive, MessageCollectionResponse, SendMailBody, User } from "./Model";
 
-const accessToken = "Access_Token";
+const accessToken = "";
 const client = GraphClientInit(accessToken);
 async function testMessages() {
     const res: MessageCollectionResponse = await client.api("/me/messages").get();
@@ -9,7 +10,7 @@ async function testMessages() {
     console.log(res.value[0].subject);
 }
 
-testMessages().then(() => "done").catch();
+//testMessages().then(() => "done").catch();
 
 
 async function testMe() {
@@ -18,7 +19,7 @@ async function testMe() {
     console.log(res.surname);
 }
 
-testMe().then(() => "done").catch();
+//testMe().then(() => "done").catch();
 
 async function testDrive() {
     const res:Drive = await client.api("/me/drive").get();
@@ -26,10 +27,9 @@ async function testDrive() {
     console.log(res.quota);
 }
 
-testDrive().then(() => "done").catch();
+//testDrive().then(() => "done").catch();
 
 async function sendMail() {
-
     const body:SendMailBody ={
         message:{
             subject: "9/9/2018: concert",
@@ -47,8 +47,22 @@ async function sendMail() {
         }
     } 
     const res = await client.api("/me/sendMail").post(body, {"Content-type":"application/json"});
-    console.log(res);
-   
+    console.log(res);   
 }
 
-sendMail().then(() => "done").catch();
+//sendMail().then(() => "done").catch();
+
+const fluentClient = generateFluentClient(client);
+
+async function testFluentAPI() {
+  const me: User = await fluentClient.me.get();
+  console.log(me.userPrincipalName);
+
+  const messages: MessageCollectionResponse = await fluentClient.me.messages.get();
+  console.log(messages.value[0].subject);
+
+  const drive: Drive = await fluentClient.me.drive.get();
+  console.log(drive);
+}
+
+testFluentAPI().then(() => "done").catch();
