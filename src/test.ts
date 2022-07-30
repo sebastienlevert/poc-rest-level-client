@@ -15,6 +15,8 @@ async function testMessages() {
 
 async function testMe() {
     const res:User = await client.api("/me").get();
+    const user = await client.api("/me").get();
+    //await client.api("/me/drive/{driveId}", { driveId: 12456 })
     console.log(res);
     console.log(res.surname);
 }
@@ -22,6 +24,14 @@ async function testMe() {
 //testMe().then(() => "done").catch();
 
 async function testDrive() {
+    const ME_DRIVE = "/me/drive/fjhsdlkfjlsdkfj/";
+
+    await client.api("/me/drive").get();
+
+    //coreClient.api(ME_DRIVE).get();
+    //typedClient.api(ME_DRIVE).get();
+    //serviceClient.api('lkjasdlkjsdakjldsajkldsa', Type.Core);
+
     const res:Drive = await client.api("/me/drive").get();
     console.log(res);
     console.log(res.quota);

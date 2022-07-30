@@ -8,6 +8,10 @@ export interface Routes {
     (api: "/me/drive"): GetDrive
 }
 
+export interface Routes {
+    (api: "/me2"): GetMe,
+}
+
 export interface GetMe {
     get(): User,
 }

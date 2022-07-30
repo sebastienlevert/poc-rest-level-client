@@ -9,6 +9,9 @@ export interface IGraphFluentAPI {
         drive: {
             get(): Drive;
         }
+    },
+    users: {
+        get(): User[]
     }
 }
 
